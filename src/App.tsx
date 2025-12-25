@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { CarVisitors } from "./scripts/car-visitors";
 import "./App.css";
+import { useTrackVisitor } from "./hooks/useTrackVisitor";
 
 function App() {
+  const { uniqueVisitors, totalVisitors } = useTrackVisitor();
   useEffect(() => {
     const container = document.getElementById("my-street");
     if (container) {
@@ -13,6 +15,9 @@ function App() {
   return (
     <>
       <h1>Car Visitors Demo</h1>
+
+      <p>Unique Visitors: {uniqueVisitors}</p>
+      <p>Total Visitors: {totalVisitors}</p>
 
       <div
         id="my-street"
