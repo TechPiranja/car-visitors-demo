@@ -1,10 +1,11 @@
 export class CarVisitors {
+
   /**
    * Render the street and cars animation
    * @param {HTMLElement} container - The DOM element to render into
-   * @param {Array<{carColor: string, wheelColor: string}>} [cars] - Array of car configs
+   * @param {Array<{carColor: string, wheelColor: string, label?: string|number}>|number} carsOrCount - Array of car configs, or a number for how many cars
    */
-  static render(container, cars) {
+  static render(container, carsOrCount) {
     // Remove previous canvas if any
     container.innerHTML = '';
 
@@ -16,9 +17,14 @@ export class CarVisitors {
     container.appendChild(canvas);
     const ctx = canvas.getContext('2d');
 
-    // If no cars provided, generate random demo cars
-    if (!Array.isArray(cars) || cars.length === 0) {
-      cars = CarVisitors._generateRandomCars(4);
+    // Support passing a number (count) or array of car configs
+    let cars;
+    if (typeof carsOrCount === 'number') {
+      cars = CarVisitors._generateRandomCars(carsOrCount).map((car, i) => ({ ...car, label: i + 1 }));
+    } else if (Array.isArray(carsOrCount) && carsOrCount.length > 0) {
+      cars = carsOrCount.map((car, i) => ({ ...car, label: car.label ?? i + 1 }));
+    } else {
+      cars = CarVisitors._generateRandomCars(4).map((car, i) => ({ ...car, label: i + 1 }));
     }
 
     // Assign random directions, positions, and speeds to each car
@@ -50,7 +56,6 @@ export class CarVisitors {
     function drawCar(car) {
       ctx.save();
       ctx.translate(car.x, car.y);
-      // ctx.scale(car.dir, 1); // Flip for direction
       // Car body
       ctx.fillStyle = car.carColor;
       ctx.fillRect(0, -10, 36, 20); // main car body
@@ -61,6 +66,13 @@ export class CarVisitors {
       ctx.ellipse(6, 8, 6, 6, 0, 0, Math.PI * 2); // wheel 1
       ctx.ellipse(30, 8, 6, 6, 0, 0, Math.PI * 2); // wheel 2
       ctx.fill();
+      // Draw label/number above the car
+      if (car.label !== undefined) {
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillStyle = '#222';
+        ctx.textAlign = 'center';
+        ctx.fillText(car.label, 18, -18); // centered above car
+      }
       ctx.restore();
     }
 
