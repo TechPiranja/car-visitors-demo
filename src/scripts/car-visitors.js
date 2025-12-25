@@ -3,7 +3,7 @@ export class CarVisitors {
   /**
    * Render the street and cars animation
    * @param {HTMLElement} container - The DOM element to render into
-   * @param {Array<{carColor: string, wheelColor: string, label?: string|number}>|number} carsOrCount - Array of car configs, or a number for how many cars
+   * @param {Array<{carColor: string, wheelColor: string, name?: string|number}>|number} carsOrCount - Array of car configs, or a number for how many cars
    */
   static render(container, carsOrCount) {
     // Remove previous canvas if any
@@ -22,9 +22,9 @@ export class CarVisitors {
     if (typeof carsOrCount === 'number') {
       cars = CarVisitors._generateRandomCars(carsOrCount).map((car, i) => ({ ...car, label: i + 1 }));
     } else if (Array.isArray(carsOrCount) && carsOrCount.length > 0) {
-      cars = carsOrCount.map((car, i) => ({ ...car, label: car.label ?? i + 1 }));
+      cars = carsOrCount.map((car, i) => ({ ...car, name: car.name ?? i + 1 }));
     } else {
-      cars = CarVisitors._generateRandomCars(4).map((car, i) => ({ ...car, label: i + 1 }));
+      cars = CarVisitors._generateRandomCars(4).map((car, i) => ({ ...car, name: i + 1 }));
     }
 
     // Assign random directions, positions, and speeds to each car
@@ -66,12 +66,12 @@ export class CarVisitors {
       ctx.ellipse(6, 8, 6, 6, 0, 0, Math.PI * 2); // wheel 1
       ctx.ellipse(30, 8, 6, 6, 0, 0, Math.PI * 2); // wheel 2
       ctx.fill();
-      // Draw label/number above the car
-      if (car.label !== undefined) {
+      // Draw name/number above the car
+      if (car.name !== undefined) {
         ctx.font = 'bold 14px sans-serif';
         ctx.fillStyle = '#222';
         ctx.textAlign = 'center';
-        ctx.fillText(car.label, 18, -18); // centered above car
+        ctx.fillText(car.name, 18, -18); // centered above car
       }
       ctx.restore();
     }

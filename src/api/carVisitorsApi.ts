@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { createClient } from "@supabase/supabase-js";
 import axios from "axios";
+
 const BASE_URL = import.meta.env.VITE_SUPABASE_EDGE_URL || "";
 const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+const supabase = createClient(BASE_URL, ANON_KEY);
 
 export type CarVisitorParams = {
   device_id: string;
@@ -10,6 +13,13 @@ export type CarVisitorParams = {
   wheel_color?: string | null;
 };
 
+export async function countVisitors(): Promise<number> {
+  const { count, error } = await supabase
+    .from("visitors")
+    .select("*", { count: "exact", head: true });
+  if (error) throw error;
+  return count ?? 0;
+}
 export async function recordVisit(params: CarVisitorParams) {
   try {
     const res = await axios.post(`${BASE_URL}/record_visit`, params, {

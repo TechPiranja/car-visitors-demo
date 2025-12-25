@@ -7,6 +7,6 @@ export declare class CarVisitors {
    */
   static render(
     container: HTMLElement,
-    cars?: Array<{ carColor: string; wheelColor: string }>
+    cars?: Array<{ carColor: string; wheelColor: string; name: string }>
   ): void;
 }
