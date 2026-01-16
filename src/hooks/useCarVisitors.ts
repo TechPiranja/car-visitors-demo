@@ -36,12 +36,34 @@ export function useCarVisitors() {
       // fetch cars after recording visit
       try {
         const data: CarResDto[] = await fetchAllCars();
+        // Pastel color palettes
+        const pastelCarColors = [
+          "#4c7eb1ff",
+          "#b5536aff",
+          "#53ab8bff",
+          "#f9ea5fff",
+          "#ffa468ff",
+          "#d0ff85ff",
+          "#6281ffff",
+          "#ff5044ff",
+        ];
+        const pastelWheelColors = [
+          "#727272ff",
+          "#4f3747ff",
+          "#6e6e55ff",
+          "#425647ff",
+        ];
+
+        function getRandom(arr: string[]) {
+          return arr[Math.floor(Math.random() * arr.length)];
+        }
+
         setCars(
-          data.map((car, i) => ({
-            carColor: car.car_color || "#4c91afff",
-            wheelColor: car.wheel_color || "#4e4e4eff",
-            name: car.name ? car.name : `anon ${i + 1}`,
-          }))
+          data.map((car) => ({
+            carColor: car.car_color || getRandom(pastelCarColors),
+            wheelColor: car.wheel_color || getRandom(pastelWheelColors),
+            name: car.name ? car.name : "",
+          })),
         );
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));

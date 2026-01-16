@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Car, Sparkles, Code, Copy, Check } from "lucide-react";
+import { Car, Sparkles, Code } from "lucide-react";
 
 interface DocumentationProps {
-  embedCode: string;
   visitorCount: number;
   cars: Array<any>;
-  copied: boolean;
-  copyToClipboard: () => void;
 }
 
-export function Documentation({
-  embedCode,
-  visitorCount,
-  cars,
-  copied,
-  copyToClipboard,
-}: DocumentationProps) {
+export function Documentation({ visitorCount, cars }: DocumentationProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -50,11 +41,11 @@ export function Documentation({
               <Code className="w-6 h-6 text-green-600" />
             </div>
             <h3 className="text-lg font-semibold text-slate-900 mb-2">
-              One Line Setup
+              Easy Setup
             </h3>
             <p className="text-slate-600">
-              Add a single script tag to your website and you're done. No
-              complex configuration required.
+              Use the following steps to integrate the widget into your site in
+              minutes! No backend needed for random generation!
             </p>
           </div>
 
@@ -73,69 +64,82 @@ export function Documentation({
         </div>
 
         <div className="bg-white rounded-2xl p-10 shadow-lg border border-slate-200 mb-16">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">Embed Code</h2>
-            <button
-              onClick={copyToClipboard}
-              className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors"
-            >
-              {copied ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-              {copied ? "Copied!" : "Copy"}
-            </button>
-          </div>
-          <div className="bg-slate-900 rounded-xl p-6 overflow-x-auto">
-            <pre className="text-sm text-slate-100 font-mono">
-              <code>{embedCode}</code>
-            </pre>
-          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">
+            How to Use the Car Visitors Widget
+          </h2>
+          <ol className="list-decimal pl-6 text-slate-700 mb-4 space-y-2">
+            <li>
+              <span className="font-semibold">Download the widget script:</span>{" "}
+              <a
+                href="/scripts/car-visitors.js"
+                download
+                className="text-blue-600 underline"
+              >
+                car-visitors.js
+              </a>
+            </li>
+            <li>
+              <span className="font-semibold">
+                Add the script to your HTML:
+              </span>
+              <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">
+                {`<script src="/scripts/car-visitors.js"></script>`}
+              </pre>
+            </li>
+            <li>
+              <span className="font-semibold">
+                Initialize the widget in your JS:
+              </span>
+              <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">
+                {`import { useEffect } from "react";
+import { CarVisitors } from "./scripts/car-visitors";
+
+function App() {
+  const container = document.getElementById("my-street");
+  if (container) {
+    // you can pass either a number or an array of car objects
+    CarVisitors.render(container, 50);
+  }
+
+  return (
+    <div id="my-street" style={{ width: "100%", position: "fixed",left: 0, bottom: 0, zIndex: 10 }} />
+  );
+}`}
+              </pre>
+            </li>
+          </ol>
         </div>
 
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl p-10 shadow-xl text-white mb-16">
           <h2 className="text-3xl font-bold mb-4">Configuration Options</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-semibold mb-2 text-blue-100">Required</h4>
-              <ul className="space-y-2 text-blue-50">
+          <div className="grid md:grid-cols-1 gap-6">
+            <div className="mb-6">
+              <p className="mb-2 text-blue-50">
+                <span className="font-semibold">CarVisitors.render</span> can be
+                used in two ways:
+              </p>
+              <ul className="list-disc pl-6 space-y-1 text-blue-50">
                 <li>
-                  <code className="bg-blue-700 px-2 py-1 rounded">
-                    data-supabase-url
-                  </code>{" "}
-                  - Your Supabase project URL
+                  <span className="font-semibold">Pass a number</span> to render
+                  that many random cars:
+                  <pre className="bg-blue-700 rounded p-2 text-xs mt-1">{`CarVisitors.render(container, 5); // renders 5 random cars`}</pre>
                 </li>
                 <li>
-                  <code className="bg-blue-700 px-2 py-1 rounded">
-                    data-supabase-key
-                  </code>{" "}
-                  - Your Supabase anon key
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2 text-blue-100">Optional</h4>
-              <ul className="space-y-2 text-blue-50">
-                <li>
-                  <code className="bg-blue-700 px-2 py-1 rounded">
-                    data-car-color
-                  </code>{" "}
-                  - Hex color for cars (default: #3b82f6)
-                </li>
-                <li>
-                  <code className="bg-blue-700 px-2 py-1 rounded">
-                    data-wheel-color
-                  </code>{" "}
-                  - Hex color for wheels (default: #1f2937)
-                </li>
-                <li>
-                  <code className="bg-blue-700 px-2 py-1 rounded">
-                    data-height
-                  </code>{" "}
-                  - Height in pixels (default: 120)
+                  <span className="font-semibold">
+                    Pass an array of car objects
+                  </span>{" "}
+                  (e.g. from Supabase) to render specific cars:
+                  <pre className="bg-blue-700 rounded p-2 text-xs mt-1">{`CarVisitors.render(container, [
+    { carColor: "#A7C7E7", wheelColor: "#B0B0B0", name: "Alice" },
+    { carColor: "#FFD1DC", wheelColor: "#D3C0CD", name: "Bob" },
+  ]);`}</pre>
                 </li>
               </ul>
+              <p className="mt-2 text-blue-100 text-xs">
+                <code
+                  style={{ fontSize: 20 }}
+                >{`cars?: number | Array<{ carColor: string; wheelColor: string; name: string `}</code>
+              </p>
             </div>
           </div>
         </div>

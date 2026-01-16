@@ -20,13 +20,7 @@ function App() {
 
   return (
     <>
-      <Documentation
-        embedCode={`<script src="https://example.com/car-visitors.js" data-supabase-url="your-url" data-supabase-key="your-key"></script>`}
-        visitorCount={totalVisitors || 0}
-        cars={cars}
-        copied={false}
-        copyToClipboard={() => {}}
-      />
+      <Documentation visitorCount={totalVisitors || 0} cars={cars} />
       <div
         id="my-street"
         style={{
