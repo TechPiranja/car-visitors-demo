@@ -38,8 +38,8 @@ export function useCarVisitors() {
         const data: CarResDto[] = await fetchAllCars();
         setCars(
           data.map((car, i) => ({
-            carColor: car.car_color || "#4caf50",
-            wheelColor: car.wheel_color || "#222",
+            carColor: car.car_color || "#4c91afff",
+            wheelColor: car.wheel_color || "#4e4e4eff",
             name: car.name ? car.name : `anon ${i + 1}`,
           }))
         );

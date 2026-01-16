@@ -71,7 +71,7 @@ export class CarVisitors {
         ctx.font = 'bold 14px sans-serif';
         ctx.fillStyle = '#222';
         ctx.textAlign = 'center';
-        ctx.fillText(car.name, 18, -18); // centered above car
+        ctx.fillText(car.name, 18, -24); // centered above car
       }
       ctx.restore();
     }
@@ -103,3 +103,6 @@ export class CarVisitors {
     }));
   }
 }
+
+
+

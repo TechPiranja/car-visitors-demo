@@ -3,10 +3,11 @@ import { CarVisitors } from "./scripts/car-visitors";
 import "./App.css";
 import { useCarVisitors } from "./hooks/useCarVisitors";
 import { useTotalVisitors } from "./hooks/useTotalVisitors";
+import { Documentation } from "./Documentation";
 
 function App() {
   // Custom hook handles device ID, visit recording, and car fetching
-  const { cars, loading, error } = useCarVisitors();
+  const { cars } = useCarVisitors();
   const { totalVisitors } = useTotalVisitors();
 
   // Render cars when data changes
@@ -19,11 +20,13 @@ function App() {
 
   return (
     <>
-      <h1>Car Visitors Demo</h1>
-      {loading && <p>Loading cars...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <p>Total Page visits: {totalVisitors}</p>
-      <p>Unique Visitors: {cars.length}</p>
+      <Documentation
+        embedCode={`<script src="https://example.com/car-visitors.js" data-supabase-url="your-url" data-supabase-key="your-key"></script>`}
+        visitorCount={totalVisitors || 0}
+        cars={cars}
+        copied={false}
+        copyToClipboard={() => {}}
+      />
       <div
         id="my-street"
         style={{
