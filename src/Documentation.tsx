@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { Car, Sparkles, Code } from "lucide-react";
 
 interface DocumentationProps {
@@ -7,6 +8,8 @@ interface DocumentationProps {
 }
 
 export function Documentation({ visitorCount, cars }: DocumentationProps) {
+  const [tab, setTab] = useState<"vanilla" | "react">("vanilla");
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -65,8 +68,9 @@ export function Documentation({ visitorCount, cars }: DocumentationProps) {
 
         <div className="bg-white rounded-2xl p-10 shadow-lg border border-slate-200 mb-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">
-            How to Use the Car Visitors Widget
+            How to Use the Widget
           </h2>
+
           <ol className="list-decimal pl-6 text-slate-700 mb-4 space-y-2">
             <li>
               <span className="font-semibold">Download the widget script:</span>{" "}
@@ -80,34 +84,79 @@ export function Documentation({ visitorCount, cars }: DocumentationProps) {
             </li>
             <li>
               <span className="font-semibold">
-                Add the script to your HTML:
-              </span>
-              <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">
-                {`<script src="/scripts/car-visitors.js"></script>`}
-              </pre>
-            </li>
-            <li>
-              <span className="font-semibold">
-                Initialize the widget in your JS:
-              </span>
-              <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">
-                {`import { useEffect } from "react";
-import { CarVisitors } from "./scripts/car-visitors";
-
-function App() {
-  const container = document.getElementById("my-street");
-  if (container) {
-    // you can pass either a number or an array of car objects
-    CarVisitors.render(container, 50);
-  }
-
-  return (
-    <div id="my-street" style={{ width: "100%", position: "fixed",left: 0, bottom: 0, zIndex: 10 }} />
-  );
-}`}
-              </pre>
+                Save file to your project directory.
+              </span>{" "}
+              (e.g., in a scripts/ folder like used in the how to)
             </li>
           </ol>
+          <div className="mb-4">
+            <div className="flex gap-2 mb-2">
+              <button
+                type="button"
+                className={`px-4 py-2 rounded-t-lg font-semibold focus:outline-none ${tab === "vanilla" ? "bg-blue-500 text-white" : "bg-slate-200 text-slate-700"}`}
+                onClick={() => setTab("vanilla")}
+              >
+                Vanilla JS
+              </button>
+              <button
+                type="button"
+                className={`px-4 py-2 rounded-t-lg font-semibold focus:outline-none ${tab === "react" ? "bg-blue-500 text-white" : "bg-slate-200 text-slate-700"}`}
+                onClick={() => setTab("react")}
+              >
+                React
+              </button>
+            </div>
+            <div className="border rounded-b-lg bg-slate-50 p-4">
+              {tab === "vanilla" ? (
+                <ol className="list-decimal pl-6 text-slate-700 space-y-2">
+                  <li>
+                    <span className="font-semibold">
+                      Add the script to your HTML:
+                    </span>
+                    <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`<script src="/scripts/car-visitors.js"></script>`}</pre>
+                  </li>
+                  <li>
+                    <span className="font-semibold">
+                      Initialize the widget in your JS:
+                    </span>
+                    <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`<div id="my-street"></div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var container = document.getElementById("my-street");
+  if (container) {
+    CarVisitors.render(container, 5); // or pass an array of car objects
+  }
+});
+</script>`}</pre>
+                  </li>
+                </ol>
+              ) : (
+                <ol className="list-decimal pl-6 text-slate-700 space-y-2">
+                  <li>
+                    <span className="font-semibold">
+                      Import the widget in your React app:
+                    </span>
+                    <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`import { CarVisitors } from "./scripts/car-visitors";`}</pre>
+                  </li>
+                  <li>
+                    <span className="font-semibold">
+                      Render the cars in your component:
+                    </span>
+                    <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`function App() {
+  const { cars } = useCarVisitors();
+  useEffect(() => {
+    const container = document.getElementById("my-street");
+    if (container && cars.length > 0) {
+      CarVisitors.render(container, cars);
+    }
+  }, [cars]);
+  return <div id="my-street" style={{ width: "100%", position: "fixed", left: 0, bottom: 0, zIndex: 10 }} />;
+}`}</pre>
+                  </li>
+                </ol>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl p-10 shadow-xl text-white mb-16">
