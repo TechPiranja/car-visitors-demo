@@ -111,12 +111,6 @@ export function Documentation({ visitorCount, cars }: DocumentationProps) {
                 <ol className="list-decimal pl-6 text-slate-700 space-y-2">
                   <li>
                     <span className="font-semibold">
-                      Add the script to your HTML:
-                    </span>
-                    <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`<script src="/scripts/car-visitors.js"></script>`}</pre>
-                  </li>
-                  <li>
-                    <span className="font-semibold">
                       Initialize the widget in your JS:
                     </span>
                     <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`<div id="my-street"></div>
