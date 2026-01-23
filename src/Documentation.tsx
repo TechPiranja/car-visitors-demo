@@ -120,13 +120,15 @@ export function Documentation({ visitorCount, cars }: DocumentationProps) {
                       Initialize the widget in your JS:
                     </span>
                     <pre className="bg-slate-900 text-slate-100 rounded p-2 mt-1 text-sm overflow-x-auto">{`<div id="my-street"></div>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  var container = document.getElementById("my-street");
-  if (container) {
-    CarVisitors.render(container, 5); // or pass an array of car objects
-  }
-});
+<script type="module">
+    import { CarVisitors } from './script.js';
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        var container = document.getElementById("my-street");
+        if (container) {
+            CarVisitors.render(container, 5); // or pass an array of car objects
+        }
+    });
 </script>`}</pre>
                   </li>
                 </ol>
